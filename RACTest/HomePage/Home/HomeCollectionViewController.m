@@ -81,46 +81,16 @@ static NSString * const reuseIdentifier = @"InfoCell";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
+    
     NSString *url = [_dataSource objectAtIndex:indexPath.item];
+    // 组件跳转 第 3 步： 直接调用
     UIViewController *goodsDetailVC = [[CTMediator sharedInstance] getDetailActionWithURL:url];
     if (goodsDetailVC) {
         goodsDetailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:goodsDetailVC animated:YES];
     }
 }
-#pragma mark <UICollectionViewDelegate>
-//
-////定义每个Item 的大小
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    float width = (SCREEN_WIDTH - k_width(20)) / 2;
-//    float height = width / 1.1764;
-//    
-//    return  CGSizeMake(width,height);  //设置cell宽高
-//    
-//}
-//
-////定义每个UICollectionView 的 margin
-//-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-//    float top = k_width(20);
-//    float left = k_height(5);
-//    
-//    return UIEdgeInsetsMake(top,left, top , left);
-//    
-//    
-//}
-//
-//
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-////    float scaleh = SCREEN_HEIGHT / 667;
-//    return k_height(5);
-//    //    }
-//    
-//}
-//
-//
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-//    
-//    return k_width(5);
-//}
+
+
 
 @end

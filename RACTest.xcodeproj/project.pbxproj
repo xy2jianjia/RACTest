@@ -60,6 +60,7 @@
 		298E1B032424B1D20001EB87 /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		29EA5A232424C64C00C02B9E /* QLAspect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QLAspect.h; sourceTree = "<group>"; };
 		29EA5A242424C64C00C02B9E /* QLAspect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QLAspect.m; sourceTree = "<group>"; };
+		29EA5A272424D2C100C02B9E /* 跳转说明.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "跳转说明.h"; sourceTree = "<group>"; };
 		336EB6A650206885F48A332C /* Pods-RACTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RACTest.release.xcconfig"; path = "Target Support Files/Pods-RACTest/Pods-RACTest.release.xcconfig"; sourceTree = "<group>"; };
 		A2526C1AE08DDFF3495503F9 /* Pods_RACTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RACTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C665C0DDDABEB67297BA8613 /* Pods-RACTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RACTest.debug.xcconfig"; path = "Target Support Files/Pods-RACTest/Pods-RACTest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				29EA5A202424BD3500C02B9E /* Detail */,
+				29EA5A272424D2C100C02B9E /* 跳转说明.h */,
 			);
 			path = "Action(跳转逻辑)";
 			sourceTree = "<group>";
