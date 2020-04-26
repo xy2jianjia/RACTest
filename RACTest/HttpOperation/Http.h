@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) get:(NSString *)url parameters:(NSDictionary *)para completed:(void(^)(id value))completed;
 
-
++ (void) post:(NSString *)url param:(NSDictionary *)para completed:(void(^)(id infoDict))completed ;
 @end
 
 NS_ASSUME_NONNULL_END

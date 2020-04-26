@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface QMIAPLogic : NSObject
-+ (void) goPay:(CommodityModel *)commodityModel completed:(void(^)(NSDictionary *body))completed;
++ (void) goPay:(NSString *)productId completed:(void(^)(BOOL flag ,NSString *msg ,NSDictionary *body))completed;
 @end
 
 NS_ASSUME_NONNULL_END

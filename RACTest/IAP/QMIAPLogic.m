@@ -7,8 +7,6 @@
 //
 
 #import "QMIAPLogic.h"
-#import "CommodityModel.h"
-#import "NSObject+visibleViewController.h"
 #import <XYIAPKit/XYIAPKit.h>
 #import <XYIAPKit/XYInAppReceipt.h>
 #import <XYIAPKit/XYStoreUserDefaultsPersistence.h>
@@ -18,36 +16,43 @@
 @implementation QMIAPLogic
 
 
-+ (void) goPay:(CommodityModel *)commodityModel  completed:(void(^)(NSDictionary *body))completed{
-
+/// 1、入口
+/// @param productId productId description
+/// @param completed completed description
++ (void) goPay:(NSString *)productId  completed:(void(^)(BOOL flag ,NSString *msg ,NSDictionary *body))completed{
+    
     if ([XYStore canMakePayments]) {
+        if ([productId length] <= 0) {
+            completed(NO,@"抱歉，无对应产品信息！",nil);
+        }
         XYStore *store = [XYStore defaultStore];
-        NSSet *set = [NSSet setWithArray:@[commodityModel.iapId]];
+        NSSet *set = [NSSet setWithArray:@[productId]];
         K_WeakSelf;
         [store requestProducts:set success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
             if (products.count > 0) {
                 SKProduct *product = [products firstObject];
 //                [XYStoreiTunesReceiptVerifier shareInstance].sharedSecretKey = IAPSharedKey;
-                [weakSelf addPayment:product commodityModel:commodityModel  completed:completed];
+                [weakSelf addPayment:product completed:completed];
             }else{
-                [self showAlert:@"抱歉，无对应产品信息！"];
-                completed(nil);
+                completed(NO,@"抱歉，无对应产品信息！",nil);
             }
         } failure:^(NSError *error) {
-            completed(nil);
+            completed(NO,@"抱歉，无对应产品信息！",nil);
         }];
     }else{
-        [self showAlert:@"出于安全考虑，当前设备不支持购买！"];
-        completed(nil);
+        completed(NO,@"出于安全考虑，当前设备不支持购买！",nil);
     }
 }
 
-+ (void) addPayment :(SKProduct *)product commodityModel:(CommodityModel *)commodityModel  completed:(void(^)(NSDictionary *body))completed{
+/// 2、加入IAP支付请求流程
+/// @param product product description
+/// @param completed completed description
++ (void) addPayment :(SKProduct *)product completed:(void(^)(BOOL flag ,NSString *msg ,NSDictionary *body))completed{
     XYStore *store = [XYStore defaultStore];
     NSString *productId = product.productIdentifier;
     K_WeakSelf;
     [store addPayment:productId success:^(SKPaymentTransaction *transaction) {
-        [weakSelf verifyTransaction:transaction commodityModel:commodityModel completed:completed];
+        [weakSelf verifyTransaction:transaction completed:completed];
     } failure:^(SKPaymentTransaction *transaction, NSError *error) {
         /*
         内购验证凭据返回结果状态码说明
@@ -60,84 +65,50 @@
         21007 收据信息是测试用（sandbox），但却被发送到产品环境中验证
         21008 收据信息是产品环境中使用，但却被发送到测试环境中验证
         */
+        NSString *msg = @"";
         if (transaction.error.code == SKErrorPaymentCancelled) {
-            [weakSelf showAlert:@"已取消操作"];
+            msg = @"已取消操作";
         }else{
-            [weakSelf showAlert:transaction.error.localizedDescription];
-            
+            // 可具体分开
+            msg = transaction.error.localizedDescription;
         }
-        completed(nil);
+        completed(NO,msg,nil);
     }];
 }
-+ (void)verifyTransaction:(SKPaymentTransaction *)transaction commodityModel:(CommodityModel *)commodityModel  completed:(void(^)(NSDictionary *body))completed{
+/// 3、客户端验证支付结果
+/// @param transaction transaction description
+/// @param completed completed description
++ (void)verifyTransaction:(SKPaymentTransaction *)transaction completed:(void(^)(BOOL flag ,NSString *msg ,NSDictionary *body))completed{
     K_WeakSelf;
     XYStore *store = [XYStore defaultStore];
     [store base64Receipt:^(NSString *base64Data) {
         [store fetchProduct:transaction.payment.productIdentifier success:^(SKProduct *product) {
-            [weakSelf verifyTransactionToServer:base64Data commodityModel:commodityModel completed:completed];
+            [weakSelf verifyTransactionToServer:base64Data completed:completed];
         } failure:^(NSError *error) {
-            completed(nil);
+            completed(NO,@"验证结果失败",nil);
         }];
     } failure:^(NSError *error) {
-        completed(nil);
+        completed(NO,@"验证结果失败",nil);
     }];
 }
-+ (void) showAlert :(NSString *)errorMsg{
+/// 4、服务端验证支付结果
+/// @param base64Data base64Data description
+/// @param completed completed description
++ (void)verifyTransactionToServer:(NSString *)base64Data completed:(void(^)(BOOL flag ,NSString *msg ,NSDictionary *body))completed{
     
-    NSString *msg = errorMsg;
-    NSString *title = @"提示";
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"知道了" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
-        
+    NSString *url = [NSString stringWithFormat:@"%@IAp", @""];
+    NSMutableDictionary *para = @{}.mutableCopy;
+
+    [para setObject:base64Data forKey:@"appleReceipt"];
+
+    [Http post:url param:para completed:^(id infoDict) {
+        if ([infoDict isKindOfClass:[NSDictionary class]]) {
+            completed(YES,@"验证结果失败",infoDict);
+        }else{
+            completed(NO,@"验证结果失败",nil);
+        }
     }];
-    [vc addAction:action3];
-    UIViewController *alertVc = [self getCurrentVC];
-    [alertVc presentViewController:vc animated:YES completion:nil];
-}
-+ (void)verifyTransactionToServer:(NSString *)base64Data commodityModel:(CommodityModel *)commodityModel  completed:(void(^)(NSDictionary *body))completed{
-    
-//    NSString *url = [NSString stringWithFormat:@"%@IAp", [DOMainConfig API_PAY]];
-//    NSMutableDictionary *para = @{}.mutableCopy;
-//    NSString *itemId = [self itemId];
-//    [para setObject:itemId forKey:@"itemid"];
-//    NSString *appId = [self ysAppId];
-//    [para setObject:appId forKey:@"appid"];
-//    NSString *version = [[self appVersion] stringByReplacingOccurrencesOfString:@"." withString:@""];
-//    [para setObject:version forKey:@"version"];
-//    NSString *channel = [self ysAppChannel];
-//    [para setObject:channel forKey:@"channel"];
-//    [para setObject:@(commodityModel.total_fee) forKey:@"total_fee"];
-//
-//    [para setObject:@(commodityModel.ListId) forKey:@"listid"];
-//    NSString *subject = @"product";
-//
-//    [para setObject:subject forKey:@"subject"];
-//    NSString *describe = @"describedescribedescribe";
-//    [para setObject:describe forKey:@"describe"];
-//    [para setObject:@"" forKey:@"shareid"];
-//    [para setObject:@(PAY_TYPE_IAP) forKey:@"paytype"];
-//
-//    [para setObject:base64Data forKey:@"appleReceipt"];
-//
-//    NSString *userId = [self currentUserId];
-//    if ([userId length] <= 0) {
-//        completed(nil);
-//        return;
-//    }
-//    [para setObject:userId forKey:@"userid"];
-//    NSString *token = [QMToken getLocalToken];
-//    if ([token length] <= 0) {
-//        completed(nil);
-//        return;
-//    }
-//
-//    [HttpOperation post:url param:para completed:^(id infoDict) {
-//        if ([infoDict isKindOfClass:[NSDictionary class]]) {
-//            completed(infoDict);
-//        }else{
-//            completed(nil);
-//        }
-//    }];
     
 }
+
 @end

@@ -13,10 +13,10 @@
 - (UIViewController *)getCurrentVC{
     
     UIViewController *rootViewController =[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    UIViewController *result = [QLRootViewController getVisibleViewControllerFrom:rootViewController];
+    UIViewController *result = [self getVisibleViewControllerFrom:rootViewController];
     return result;
 }
-+ (UIViewController *) getVisibleViewControllerFrom:(UIViewController *) vc {
+- (UIViewController *) getVisibleViewControllerFrom:(UIViewController *) vc {
     if ([vc isKindOfClass:[UINavigationController class]]) {
         return [self getVisibleViewControllerFrom:[((UINavigationController *) vc) visibleViewController]];
     } else if ([vc isKindOfClass:[UITabBarController class]]) {
