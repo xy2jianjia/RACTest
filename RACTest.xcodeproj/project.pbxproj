@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		295BE64724553AE70060433B /* CommodityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 295BE64424553AE70060433B /* CommodityModel.m */; };
+		295BE64824553AE70060433B /* QMIAPLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 295BE64524553AE70060433B /* QMIAPLogic.m */; };
+		295BE64B24553BA60060433B /* NSObject+visibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 295BE64A24553BA60060433B /* NSObject+visibleViewController.m */; };
 		298E198E24236EBB0001EB87 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 298E198D24236EBB0001EB87 /* AppDelegate.m */; };
 		298E199124236EBB0001EB87 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 298E199024236EBB0001EB87 /* SceneDelegate.m */; };
 		298E199724236EBB0001EB87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 298E199524236EBB0001EB87 /* Main.storyboard */; };
@@ -28,6 +31,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		295BE64324553AE70060433B /* QMIAPLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMIAPLogic.h; sourceTree = "<group>"; };
+		295BE64424553AE70060433B /* CommodityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommodityModel.m; sourceTree = "<group>"; };
+		295BE64524553AE70060433B /* QMIAPLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMIAPLogic.m; sourceTree = "<group>"; };
+		295BE64624553AE70060433B /* CommodityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommodityModel.h; sourceTree = "<group>"; };
+		295BE64924553BA60060433B /* NSObject+visibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+visibleViewController.h"; sourceTree = "<group>"; };
+		295BE64A24553BA60060433B /* NSObject+visibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+visibleViewController.m"; sourceTree = "<group>"; };
 		298E198924236EBB0001EB87 /* RACTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RACTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298E198C24236EBB0001EB87 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		298E198D24236EBB0001EB87 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -78,6 +87,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		295BE64224553AE70060433B /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				295BE64924553BA60060433B /* NSObject+visibleViewController.h */,
+				295BE64A24553BA60060433B /* NSObject+visibleViewController.m */,
+				295BE64624553AE70060433B /* CommodityModel.h */,
+				295BE64424553AE70060433B /* CommodityModel.m */,
+				295BE64324553AE70060433B /* QMIAPLogic.h */,
+				295BE64524553AE70060433B /* QMIAPLogic.m */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
 		298E198024236EBB0001EB87 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +121,7 @@
 		298E198B24236EBB0001EB87 /* RACTest */ = {
 			isa = PBXGroup;
 			children = (
+				295BE64224553AE70060433B /* IAP */,
 				29EA5A212424BE3D00C02B9E /* Plugins(插件) */,
 				298E1AF0242468360001EB87 /* Header */,
 				298E19A824236F4A0001EB87 /* HomePage */,
@@ -391,10 +414,13 @@
 				298E198E24236EBB0001EB87 /* AppDelegate.m in Sources */,
 				298E1AEF2424663F0001EB87 /* InfoCell.m in Sources */,
 				298E1AFE2424B18D0001EB87 /* Target_DetailAction.m in Sources */,
+				295BE64724553AE70060433B /* CommodityModel.m in Sources */,
 				29EA5A252424C64C00C02B9E /* QLAspect.m in Sources */,
 				298E19C22423706D0001EB87 /* Http.m in Sources */,
+				295BE64B24553BA60060433B /* NSObject+visibleViewController.m in Sources */,
 				298E199F24236EBE0001EB87 /* main.m in Sources */,
 				298E1AE624237D670001EB87 /* HomeCollectionViewController.m in Sources */,
+				295BE64824553AE70060433B /* QMIAPLogic.m in Sources */,
 				298E1AF4242477AF0001EB87 /* HomeLayout.m in Sources */,
 				298E1AFB2424B1350001EB87 /* CTMediator+DetailAction.m in Sources */,
 				298E1B042424B1D20001EB87 /* DetailViewController.m in Sources */,

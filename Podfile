@@ -59,6 +59,12 @@ targetsArray.each do |t|
         pod 'AutoAlignButtonTools'
         pod 'CTMediator'
         
+        #内购
+        pod 'XYIAPKit'
+        pod 'XYIAPKit/iTunesReceiptVerify'
+        pod 'XYIAPKit/UserDefaultPersistence'
+        pod 'XYIAPKit/KeychainPersistence'
+        
     end
 end
 

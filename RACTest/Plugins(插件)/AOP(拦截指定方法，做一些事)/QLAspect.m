@@ -32,13 +32,18 @@ typedef void(^HookViewDidLoadBlock)(id<AspectInfo> aspectInfo, BOOL animated);
 - (void) configAspect {
     _hookViewDidLoadBlock = ^(id<AspectInfo> aspectInfo, BOOL animated){
         NSLog(@"控制器 %@ 将要显示: %tu", aspectInfo.instance, animated);
+        UIViewController* viewController = aspectInfo.instance;
+        if (viewController.title) {
+            // 友盟统一埋点
+//            [MobClick beginLogPageView:viewController.title];
+        }
     };
     
     NSError *error = nil;
     [UIViewController aspect_hookSelector:@selector(viewDidAppear:) withOptions:(AspectPositionAfter) usingBlock:_hookViewDidLoadBlock  error:&error];
 //
 //    [UIViewController aspect_hookSelector:@selector(viewDidAppear:) withOptions:(AspectPositionAfter) usingBlock:^(id<AspectInfo> aspectInfo, BOOL animated) {
-//
+
 //        UIViewController* viewController = aspectInfo.instance;
 //        if (viewController.title) {
 ////            [MobClick beginLogPageView:viewController.title];
